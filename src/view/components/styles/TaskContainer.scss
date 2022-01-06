@@ -1,0 +1,57 @@
+#TaskContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  .task-type{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    width: 400px;
+    height: 90px;
+    border-radius: 10px;
+    font-size: 35px;
+    font-weight: bold;
+    color: white;
+    background: #8d5fb7;
+  }
+  .tasks{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    border: 1px solid white;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0px 0px 7px #b3cccc;
+    width: 400px;
+    height: 600px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+  }
+  .tasks::-webkit-scrollbar {
+    display: none;
+    width: 0
+  }
+  .add-button{
+    cursor: pointer;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 50%;
+    top:763px;
+    width: 40px;
+    height: 40px;
+    background-color: #8d5fb7;
+      .add-btn-wrapper{
+        position: relative;
+        bottom:4px;
+        font-size: 44px;
+        color: white;
+      }
+    }
+}

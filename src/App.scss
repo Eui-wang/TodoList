@@ -1,0 +1,20 @@
+#App{
+  height: 100vh;
+  .title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  .contents{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 720px;
+  }
+
+}
+
+

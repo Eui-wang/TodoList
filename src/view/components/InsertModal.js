@@ -19,12 +19,13 @@ function InsertModal(props) {
         event.preventDefault()
     }
     const onCreate = (event) => {
+        let temp = props.taskArray[props.name];
+        temp.push({title:title, content:content, worker:worker, containerId: props.containerId});
+        props.setTasks({
+            ...props.taskArray,
+            [props.name] : temp,
+        })
         props.closeInsert()
-        let tempArr = todoArray;
-        tempArr.push({title:title, content:content, worker:worker, containerId: props.containerId});
-        localStorage.setItem(props.name, JSON.stringify(tempArr))
-        props.setTodoArr(tempArr)
-        //local strage에서는 직접 수정을 할 수 없으므로 가져와서 수정후 덮어쓰기해야한다,
         setTitle('');
         setContent('');
         setWorker('');
@@ -37,16 +38,26 @@ function InsertModal(props) {
             overlayClassName="insert-overlay"
             ariaHideApp={false}
         >
+            <div className="title">Add Task</div>
             <div className="form-wrapper">
                 <form className="input-form" onSubmit={onSubmitHandler}>
                     <div className="input-wrapper">
-                        <input type="text" label="Title" value={title} onChange={onTitleHandler}/>
-                        <input type="text" label="Content" value={content} onChange={onContentHandler}/>
-                        <input type="text" label="Who?" value={worker} onChange={onWorkerHandler}/>
+                        <div className="row-wrapper">
+                            <div className="row-title">Title</div>
+                            <input type="text" label="Title" value={title} maxLength={10} onChange={onTitleHandler}/>
+                        </div>
+                        <div className="row-wrapper">
+                            <div className="row-title">Content</div>
+                            <input type="text" label="Content" value={content} maxLength={10} onChange={onContentHandler}/>
+                        </div>
+                        <div className="row-wrapper">
+                            <div className="row-title">Who</div>
+                            <input type="text" label="Who?" value={worker} maxLength={10} onChange={onWorkerHandler}/>
+                        </div>
                     </div>
                     <div className="button-wrapper">
-                        <button onClick={() => onCreate()}>ok</button>
-                        <button onClick={() => props.closeInsert()}>cancel</button>
+                        <div className="btn ok" onClick={() => onCreate()}>ok</div>
+                        <div className="btn cancel" onClick={() => props.closeInsert()}>cancel</div>
                     </div>
                 </form>
             </div>

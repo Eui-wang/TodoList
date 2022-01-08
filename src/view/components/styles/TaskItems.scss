@@ -3,15 +3,16 @@
   width:350px;
   .card-wrapper{
     color: white;
-    background-color: #6f579d;
+    background-color: #7d6c9f;
     display: flex;
     flex-direction: column;
     border: 1px solid #8d5fb7;
     border-radius: 10px;
-    box-shadow: 0px 0px 3px #0c0c0c;
+    box-shadow: 0px 0px 3px #000000;
     .row-wrapper {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 8px;
       .item-title {
         font-size: 20px;
@@ -26,6 +27,7 @@
         .modify-btn{
           padding: 5px;
           cursor: pointer;
+
         }
         .delete-btn{
           cursor: pointer;

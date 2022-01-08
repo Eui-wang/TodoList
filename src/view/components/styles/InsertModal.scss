@@ -1,7 +1,6 @@
 .insert-content{
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   position: fixed;
   z-index: 2;
@@ -14,6 +13,12 @@
   border-radius: 10px;
   outline: none;
   color: white;
+  .title{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: bold;
+  }
   .form-wrapper {
     display: flex;
     justify-content: center;
@@ -29,11 +34,43 @@
           width: 200px;
           height: 40px;
         }
+        .row-wrapper{
+          margin-bottom: 12px;
+          .row-title{
+            font-size: 20px;
+            margin-bottom: 2px;
+          }
+          input{
+            border-radius: 5px;
+            padding:5px;
+            font-size: 16px;
+            outline:none;
+            border:none;
+          }
+        }
       }
       .button-wrapper {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        width: 100%;
+        margin-top: 30px;
+        .btn{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width:90px;
+          height: 30px;
+          border:3px solid white;
+          font-size: 20px;
+          font-weight: bold;
+          border-radius: 10px;
+          cursor: pointer;
+          &.ok{
+            color:#8d5fb7;
+            background: white;
+          }
+        }
       }
     }
   }

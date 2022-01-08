@@ -12,24 +12,46 @@
   border-radius: 10px;
   outline: none;
   color: white;
+  input{
+    outline: none;
+    border:none;
+    border-radius: 5px;
+    padding:5px;
+    font-size: 16px;
+  }
   .top-wrapper{
     display: flex; 
-    flex-display: row;
     justify-content: space-between;
-    align-items: center;
-    .title-wrapper{
-      margin: 30px 0px 0px 30px;
-      font-size: 45px;
-      .input-title{
 
+    padding:30px 30px 0 30px;
+    .title-wrapper{
+      height: 70px;
+      .input-title{
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        .ok-btn{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width:50px;
+          height: 34px;
+          margin-left: 10px;
+          background: #696b8c;
+          border-radius: 12px;
+          color:white;
+          font-weight: bold;
+        }
       }
       .title-data{
-
+        font-size: 40px;
+        font-weight: bold;
       }
     }
     .close-btn{
-      margin-right: 30px;
-      font-size: 40px;
+      margin-top: 5px;
+      font-size: 30px;
+      padding-bottom: 6px;
       cursor: pointer;
     }
   }
@@ -38,41 +60,80 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 250px;
+    padding:0 30px;
+    margin-top: 10px;
     .detail-content {
 
       .content-wrapper {
         display: flex;
+        flex-direction: column;
+        height: 80px;
         font-size: 30px;
-        margin-left: 30px;
-        padding: 20px;
-        .input-content {
-          margin-left: 10px;
+        margin-bottom: 10px;
+        .input-content{
+          display: flex;
+          align-items: center;
+          .ok-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width:50px;
+            height: 34px;
+            margin-left: 10px;
+            background: #696b8c;
+            border-radius: 12px;
+            color:white;
+            font-weight: bold;
+            font-size: 16px;
+          }
         }
-        .content-data {
-          margin-left: 10px;
 
+        .content-name{
+          margin-bottom: 16px;
+          font-size: 24px;
+          font-weight: bold;
+        }
+        .content-data{
+          font-size: 18px;
         }
       }
       .worker-wrapper {
         display: flex;
+        flex-direction: column;
+        height: 90px;
         font-size: 30px;
-        margin-left: 30px;
-        padding: 20px;
-        .input-worker {
-          margin-left: 10px;
+        margin-bottom: 10px;
+        .input-worker{
+          display: flex;
+          align-items: center;
+          .ok-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width:50px;
+            height: 34px;
+            margin-left: 10px;
+            background: #696b8c;
+            border-radius: 12px;
+            color:white;
+            font-weight: bold;
+            font-size: 16px;
+          }
         }
-        .worker-data {
-          margin-left: 10px;
+        .worker-name {
+          margin-bottom: 16px;
+          font-size: 24px;
+          font-weight: bold;
+        }
+        .worker-data{
+          font-size: 18px;
+
         }
       }
     }
     .btn-action {
       font-size: 20px;
-      padding: 40px;
-      .move-to-btn {
-        cursor: pointer;
-      }
+
       .modify-title-btn {
         margin-top: 20px;
         cursor: pointer;
@@ -84,6 +145,37 @@
       .modify-worker-btn {
         margin-top: 20px;
         cursor: pointer;
+      }
+    }
+  }
+  .btn-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    .move-to-btn {
+      display: flex;
+      cursor: pointer;
+
+      select{
+        padding:10px;
+        outline: none;
+        border:none;
+        font-size: 20px;
+        -o-appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 10px;
+        color:white;
+        background-color: #696b8c;
+      }
+      .move-to-okay-btn{
+        display: flex;
+        align-items: center;
+        margin-left: 5px;
+        font-size: 20px;
       }
     }
   }

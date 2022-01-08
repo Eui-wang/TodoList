@@ -6,29 +6,16 @@ import Header from './view/components/Header'
 function App() {
     //App.js 에서 Task배열을 초기화 해야 하는 이유는 Container에서 초기화시 각 상황별 task처리를 따로해줘야 한다.
     //TaskContainer에 객체배열을 보내주기만 하면 동작하는 방식은 똑같음
+    const loadDataStorage = JSON.parse(localStorage.getItem("data")) ?? {
+        Todo: [],
+        Doing: [],
+        Done: []
+    }
+    const [tasks, setTasks] = useState(loadDataStorage)
 
-    const [todo, setTodo] = useState([])
-    const [doing, setDoing] = useState([])
-    const [done, setDone] = useState([])
-    const [tasks, setTasks] = useState({todo, doing, done})
-    // //const [todoArr, setTodoArr] = useState(JSON.parse(localStorage.getItem(props.name)))
-    // //초기 데이터 저장
-    // useEffect(() => {
-    //     window.addEventListener('storage', (e) => {
-    //         // When local storage changes, dump the list to
-    //         // the console.
-    //         console.log(e)
-    //         // console.log(JSON.parse(localStorage.getItem(props.name)));
-    //     });
-    // }, [])
-    // const todoList = tasks.map((task, index) => {
-    //     return {
-    //         ...task,
-    //         id: index
-    //     }
-    // }).filter(task => task.containerId === 0)
-    // const doingList = tasks.filter(task => task.containerId === 1)
-    // const doneList = tasks.filter(task => task.containerId === 2)
+    useEffect(() => {
+        localStorage.setItem('data', JSON.stringify(tasks))
+    }, [tasks])
     return (
         <div id = "App">
             <div className="title">

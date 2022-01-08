@@ -12,12 +12,12 @@ function DetailModal(props) {
     const [newContent, setNewContent] = useState('')
     const [newWorker, setNewWorker] = useState('')
 
-    const todoArray = JSON.parse(localStorage.getItem(props.name))
-    console.log(todoArray)
     //현재 할일목록을 받아옴
-    console.log(selectedTaskType)
     const changeTitleHandler = (event) => {
-        setNewTitle(event.currentTarget.value)
+        if(event.currentTarget.value === '')
+            setNewTitle(props.item.title)
+        else
+            setNewTitle(event.currentTarget.value)
     }
     const changeContentHandler = (event) => {
         setNewContent(event.currentTarget.value)
@@ -26,24 +26,25 @@ function DetailModal(props) {
         setNewWorker(event.currentTarget.value)
     }
     const selectedTaskTypeHandler = (event) => {
-        if(selectedTaskType != null)
+        if (selectedTaskType != null)
             setSelectedTaskType(event.currentTarget.value)
     }
 
     const moveToDiffTask = (i, taskType) => {
-        let selectedTask = todoArray.at(i)
-        console.log(selectedTask)
-        console.log(JSON.parse(localStorage.getItem(taskType)))
-        let selectedArray = JSON.parse(localStorage.getItem(taskType))
-        console.log(selectedArray)
-        selectedArray.push(selectedTask)
-        localStorage.setItem(taskType, JSON.stringify(selectedArray))
-        props.deleteItem(i)
+        let selectedTask = props.taskArr[props.name].at(i)
+        let before = props.taskArr[props.name].filter((task, index) => index !== i)
+        let after = props.taskArr[taskType]
+        after.push(selectedTask)
+        props.setTasks({
+            ...props.taskArr,
+            [props.name]: before,
+            [taskType]: after,
+        })
     }
 
     const onModifyTitle = (event) => {
-        let tempArr = todoArray.map((task, i) => {
-            if (props.index === i) {
+        let tempArr = props.taskArr[props.name].map((task, index) => {
+            if (props.index === index) {
                 return {
                     ...task,
                     title: newTitle
@@ -51,14 +52,15 @@ function DetailModal(props) {
             }
             return task
         });
-        //props.setTaskArr(tempArr)
-        localStorage.setItem(props.name, JSON.stringify(tempArr))
+        props.setTasks({
+            ...props.taskArr,
+            [props.name]: tempArr,
+        })
         setChangeTitle(false)
-        setNewTitle('')
     }
     const onModifyContent = (event) => {
-        let tempArr = todoArray.map((task, i) => {
-            if (props.index === i) {
+        let tempArr = props.taskArr[props.name].map((task, index) => {
+            if (props.index === index) {
                 return {
                     ...task,
                     content: newContent
@@ -66,14 +68,15 @@ function DetailModal(props) {
             }
             return task
         });
-        props.setTodoArr(tempArr)
-        localStorage.setItem(props.name, JSON.stringify(tempArr))
+        props.setTasks({
+            ...props.taskArr,
+            [props.name]: tempArr,
+        })
         setChangeContent(false)
-        setNewContent('')
     }
     const onModifyWorker = (event) => {
-        let tempArr = todoArray.map((task, i) => {
-            if (props.index === i) {
+        let tempArr = props.taskArr[props.name].map((task, index) => {
+            if (props.index === index) {
                 return {
                     ...task,
                     worker: newWorker
@@ -81,10 +84,31 @@ function DetailModal(props) {
             }
             return task
         });
-        props.setTodoArr(tempArr)
-        localStorage.setItem(props.name, JSON.stringify(tempArr))
+        props.setTasks({
+            ...props.taskArr,
+            [props.name]: tempArr,
+        })
         setChangeWorker(false)
-        setNewWorker('')
+    }
+
+    const inputHandler = (e) => {
+        if(e==='title'){
+            setChangeTitle(!onChangeTitle);
+            setChangeContent(false);
+            setChangeWorker(false);
+        }
+        else if(e==='content'){
+            setChangeTitle(false);
+            setChangeContent(!onChangeContent);
+            setChangeWorker(false);
+        }
+
+        else if(e==='worker'){
+            setChangeTitle(false);
+            setChangeContent(false);
+            setChangeWorker(!onChangeWorker);
+        }
+
     }
 
     return (
@@ -95,13 +119,24 @@ function DetailModal(props) {
                ariaHideApp={false}>
             <div className="top-wrapper">
                 <div className="title-wrapper">
-                    {onChangeTitle ? <div className="input-title">
-                        <input type="text"
-                               value={newTitle}
-                               onChange={changeTitleHandler}
-                        />
-                        <button onClick={() => onModifyTitle()}>ok</button>
-                    </div> : <div className="title-data">{props.item.title}</div>}
+                    {onChangeTitle ?
+                        <div className="input-title">
+                            <input type="text"
+                                   maxLength={10}
+                                   defaultValue={newTitle ? newTitle : props.item.title}
+                                   onChange={changeTitleHandler}
+                            />
+                            <div className="ok-btn" onClick={() => onModifyTitle()}>ok</div>
+                        </div>
+                        :
+                        <>
+                            {
+                                props.item.title === '' ?
+                                    <div className="title-data">No Title</div>
+                                    :
+                                    <div className="title-data">{props.item.title}</div>
+                            }
+                        </>}
                 </div>
                 <div className="close-btn" onClick={() => props.closeModify()}>
                     x
@@ -111,50 +146,84 @@ function DetailModal(props) {
                 <div className="detail-content">
                     <div className="content-wrapper">
                         <div className="content-name">
-                            업무 :
+                            What To Do
                         </div>
-                        {onChangeContent ? <div className="input-content">
-                            <input type="text"
-                                   value={newContent}
-                                   onChange={changeContentHandler}
-                            />
-                            <button onClick={() => onModifyContent()}>ok</button>
-                        </div> : <div className="content-data">{props.item.content}</div>}
+                        {onChangeContent ?
+                            <div className="input-content">
+                                <input type="text"
+                                       maxLength={10}
+                                       defaultValue={newContent ? newContent : props.item.content}
+                                       onChange={changeContentHandler}
+                                />
+                                <div className="ok-btn" onClick={() => onModifyContent()}>ok</div>
+                            </div>
+                            :
+                            <>
+                                {
+                                    props.item.content === '' ?
+                                        <div className="content-data">No Content</div>
+                                        :
+                                        <div className="content-data">{props.item.content}</div>
+                                }
+                            </>}
                     </div>
                     <div className="worker-wrapper">
                         <div className="worker-name">
-                            작업자 :
+                            Who
                         </div>
-                        {onChangeWorker ? <div className="input-worker">
-                            <input type="text"
-                                   value={newWorker}
-                                   onChange={changeWorkerHandler}
-                            />
-                            <button onClick={() => onModifyWorker()}>ok</button>
-                        </div> : <div className="worker-data">{props.item.worker}</div>}
+                        {onChangeWorker ?
+                            <div className="input-worker">
+                                <input type="text"
+                                       maxLength={10}
+                                       defaultValue={newWorker ? newWorker : props.item.worker}
+                                       onChange={changeWorkerHandler}
+                                />
+                                <div className="ok-btn" onClick={() => onModifyWorker()}>ok</div>
+                            </div>
+                            :
+                            <>
+                                {
+                                    props.item.worker === '' ?
+                                        <div className="worker-data">No Who</div>
+                                        :
+                                        <div className="worker-data">{props.item.worker}</div>
+                                }
+                            </>}
                     </div>
                 </div>
                 <div className="btn-action">
-                    <div className="move-to-btn">
-                        <form >
-                            <select name="move" onChange={selectedTaskTypeHandler}>
-                                <option defaultValue="none" >Move to...</option>
-                                <option value="Todo">To do</option>
-                                <option value="Doing">Doing</option>
-                                <option value="Done">Done</option>
-                            </select>
-                            <button onClick={() => moveToDiffTask(props.index, selectedTaskType)}>ok</button>
-                        </form>
+
+                    <div className="modify-title-btn" onClick={() => inputHandler('title')}>
+                        Edit Title
                     </div>
-                    <div className="modify-title-btn" onClick={() => setChangeTitle(!onChangeTitle)}>
-                        제목 수정
+                    <div className="modify-content-btn" onClick={() => inputHandler('content')}>
+                        Edit Content
                     </div>
-                    <div className="modify-content-btn" onClick={() => setChangeContent(!onChangeContent)}>
-                        업무 수정
+                    <div className="modify-worker-btn" onClick={() => inputHandler('worker')}>
+                        Edit Who
                     </div>
-                    <div className="modify-worker-btn" onClick={() => setChangeWorker(!onChangeWorker)}>
-                        작업자 수정
-                    </div>
+
+                </div>
+            </div>
+            <div className="btn-wrapper">
+                <div className="move-to-btn">
+                    <select name="move" onChange={selectedTaskTypeHandler}  onClick={() => {
+                        moveToDiffTask(props.index, selectedTaskType);
+                    }}>
+                        <option defaultValue="none">Move to...</option>
+                        {
+                            props.name !== "Todo" &&
+                            <option value="Todo">To do</option>
+                        }
+                        {
+                            props.name !== "Doing" &&
+                            <option value="Doing">Doing</option>
+                        }
+                        {
+                            props.name !== "Done" &&
+                            <option value="Done">Done</option>
+                        }
+                    </select>
                 </div>
             </div>
         </Modal>

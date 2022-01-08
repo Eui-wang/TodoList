@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import './styles/TaskItems.scss'
-import {BsPencilSquare, BsTrash} from "react-icons/bs"
+import {AiOutlineEdit,AiFillEdit} from "react-icons/ai"
+import {RiDeleteBinFill, RiDeleteBinLine} from "react-icons/ri";
+
 import DetailModal from "./DetailModal";
 //이 컴포넌트에서는 객체에 저장되어있는 데이터들을 어떻게 나타낼지 결정함.
 //상위컴포넌트에서 이 컴포넌트에 전달하는 값은 배열이 아닌 객체.
 //배열에서 꺼내온것을 전달한 것.
 //눌렀을때 상세정보 나오게 구현
 function TaskItems(props) {
-    const todoArray = JSON.parse(localStorage.getItem(props.name))
     const [showModify, setShowModify] = useState(false)
     const openModify = () => {
         setShowModify(true)
@@ -16,21 +17,28 @@ function TaskItems(props) {
         setShowModify(false)
     }
     const deleteItem = key => {
-        console.log(todoArray)
-        const tempArr = todoArray.filter(item => todoArray.indexOf(item) !== key)
-        console.log(tempArr)
-        localStorage.setItem(props.name, JSON.stringify(tempArr))
-        props.setTodoArr(tempArr)
-        //console.log(JSON.parse(localStorage.getItem(props.name)))
+        let temp = props.taskArray[props.name].filter(item => props.taskArray[props.name].indexOf(item) !== key)
+        props.setTasks({
+            ...props.taskArray,
+            [props.name] : temp,
+        })
     }
+    const [editFocus, setEditFocus] = useState(false);
+
+    const [deleteFocus, setDeleteFocus] = useState(false);
     return (
         <div id="TaskItems">
             <div className="card-wrapper">
                 <div className="row-wrapper">
                     <div className="item-title">{props.item.title}</div>
                     <div className="btn-wrapper">
-                        <div className="modify-btn">
-                            <BsPencilSquare onClick={openModify} size="20"/>
+                        <div className="modify-btn" onMouseOver={()=>setEditFocus(true)} onMouseLeave={()=>setEditFocus(false)}>
+                            {
+                                editFocus ?
+                                <AiOutlineEdit onClick={openModify} size="25"/>
+                                :
+                                <AiFillEdit onClick={openModify} size="25"/>
+                            }
                         </div>
                         <div>
                             {showModify && <DetailModal
@@ -45,8 +53,13 @@ function TaskItems(props) {
                                 deleteItem={deleteItem}
                             />}
                         </div>
-                        <div className="delete-btn">
-                            <BsTrash size="20" onClick={() => deleteItem(props.index)}/>
+                        <div className="delete-btn" onMouseOver={()=>setDeleteFocus(true)} onMouseLeave={()=>setDeleteFocus(false)}>
+                            {
+                                deleteFocus ?
+                                    <RiDeleteBinLine size="25" onClick={() => deleteItem(props.index)}/>
+                                    :
+                                    <RiDeleteBinFill size="25" onClick={() => deleteItem(props.index)}/>
+                            }
                         </div>
                     </div>
                 </div>

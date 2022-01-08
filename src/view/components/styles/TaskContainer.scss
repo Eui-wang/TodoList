@@ -15,7 +15,8 @@
     font-size: 35px;
     font-weight: bold;
     color: white;
-    background: #8d5fb7;
+    background: #6e5c7c;
+    box-shadow: 0px 0px 3px #344272;
   }
   .tasks{
     display: flex;
@@ -25,7 +26,7 @@
     border: 1px solid white;
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
-    box-shadow: 0px 0px 7px #b3cccc;
+    box-shadow: 0px 0px 3px #294646;
     width: 400px;
     height: 600px;
     overflow-y: scroll;
@@ -41,12 +42,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid white;
+    border: 1px solid #8d5fb7;
     border-radius: 50%;
     top:763px;
     width: 40px;
     height: 40px;
-    background-color: #8d5fb7;
+    background-color: #6e5c7c;
       .add-btn-wrapper{
         position: relative;
         bottom:4px;
